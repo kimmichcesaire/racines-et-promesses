@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "resolvePackageJsonExports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+    // Rendu explicite car le monorepo (workspaces npm) remonte certaines
+    // dépendances vers node_modules à la racine du dépôt : sans ce réglage,
+    // TypeScript retrouve bien les deux emplacements en ligne de commande
+    // (recherche implicite en remontant les dossiers), mais l'éditeur peut
+    // se tromper de projet et signaler à tort "describe/it/expect introuvables".
+    "typeRoots": ["./node_modules/@types", "../../node_modules/@types"]
+  }
+}

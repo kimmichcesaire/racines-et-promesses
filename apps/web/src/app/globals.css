@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+/*
+ * Racines & Promesses — charte graphique validée (cahier des charges, section 10).
+ * Palette figée avec le couple : ne pas ajouter de teintes hors de cette liste
+ * sans validation. `vert-profond` est une dérivation du vert sauge, réservée
+ * au texte, pour garantir un contraste conforme WCAG AA sur fond clair.
+ */
+:root {
+  --color-blanc-pur: #ffffff;
+  --color-ivoire: #f8f4ed;
+  --color-beige-sable: #d9c7a5;
+  --color-camel: #b68a5a;
+  --color-vert-sauge: #7d8f72;
+  --color-vert-profond: #3e4b36;
+  --color-or-mat: #c6a15b;
+  /* Teinte dérivée du vert sauge (≈15% sur ivoire), opaque — utilisée pour
+     la barre de navigation. Opaque plutôt que transparente pour garder le
+     logo et le menu lisibles quel que soit l'écran qui défile en dessous. */
+  --color-vert-pale: #e0e8dd;
+
+  --background: var(--color-ivoire);
+  --foreground: var(--color-vert-profond);
+}
+
+@theme inline {
+  --color-blanc-pur: var(--color-blanc-pur);
+  --color-ivoire: var(--color-ivoire);
+  --color-beige-sable: var(--color-beige-sable);
+  --color-camel: var(--color-camel);
+  --color-vert-sauge: var(--color-vert-sauge);
+  --color-vert-profond: var(--color-vert-profond);
+  --color-or-mat: var(--color-or-mat);
+  --color-vert-pale: var(--color-vert-pale);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-display: var(--font-cormorant), Georgia, serif;
+  --font-sans: var(--font-work-sans), -apple-system, "Segoe UI", sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/*
+ * Animations — subtiles, lentes, jamais nombreuses (cahier des charges,
+ * sections 7.5 et 10). Deux usages :
+ * 1. `.rise-in` : apparition en fondu au chargement de l'écran 1 (CSS pur,
+ *    fonctionne même sans JavaScript).
+ * 2. `.reveal` : apparition au défilement, pilotée par le composant Reveal
+ *    (IntersectionObserver). Le filet `noscript` plus bas garantit que le
+ *    contenu reste visible si JavaScript est désactivé.
+ */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise-in {
+  animation: rise-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/*
+ * 3. `.watermark-logo` : le médaillon en filigrane derrière le texte de
+ *    /notre-histoire — respiration lente (échelle + opacité), jamais de
+ *    rotation (le monogramme et l'arbre perdraient leur sens à l'envers).
+ */
+@keyframes watermark-breathe {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.14;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.04);
+    opacity: 0.2;
+  }
+}
+
+.watermark-logo {
+  animation: watermark-breathe 12s ease-in-out infinite;
+}
+
+/* Respect du choix système "réduire les animations" (cahier des charges, section 7.5) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
