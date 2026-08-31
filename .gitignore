@@ -38,5 +38,9 @@ Thumbs.db
 supabase/.branches
 supabase/.temp
 
+## Déploiement (fichiers de secrets locaux, jamais commités)
+env.yaml
+apps/api/env.yaml
+
 ## Outils locaux (non liés au projet)
 .claude/
