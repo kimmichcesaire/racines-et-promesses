@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { apiGet } from "@/lib/api";
+import { apiDelete, apiGet } from "@/lib/api";
 import { getAdminToken, isUnauthorized, redirectToLogin } from "@/lib/admin-auth";
 
 type Prayer = {
   id: string;
-  nom: string;
-  prenom: string;
+  nom_complet: string;
   message: string;
   consentement_rgpd: boolean;
   created_at: string;
@@ -18,6 +17,7 @@ export default function AdminPrayersPage() {
   const router = useRouter();
   const [prayers, setPrayers] = useState<Prayer[] | null>(null);
   const [error, setError] = useState("");
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     const token = getAdminToken();
@@ -33,6 +33,26 @@ export default function AdminPrayersPage() {
         setError("Impossible de charger les prières.");
       });
   }, [router]);
+
+  async function handleDelete(p: Prayer) {
+    const token = getAdminToken();
+    if (!token) return;
+    if (!window.confirm(`Supprimer définitivement la prière de ${p.nom_complet} ?`)) return;
+
+    setDeletingId(p.id);
+    try {
+      await apiDelete(`/prayers/${p.id}`, token);
+      setPrayers((prev) => prev?.filter((item) => item.id !== p.id) ?? null);
+    } catch (err) {
+      if (isUnauthorized(err)) {
+        redirectToLogin(router);
+        return;
+      }
+      window.alert("Impossible de supprimer cette prière. Merci de réessayer.");
+    } finally {
+      setDeletingId(null);
+    }
+  }
 
   return (
     <div>
@@ -54,12 +74,20 @@ export default function AdminPrayersPage() {
         {prayers?.map((p) => (
           <div key={p.id} className="rounded-2xl border border-beige-sable/40 bg-white px-6 py-5">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <p className="font-display text-lg text-vert-profond">
-                {p.prenom} {p.nom}
-              </p>
-              <p className="font-sans text-xs text-vert-profond/50">
-                {new Date(p.created_at).toLocaleString("fr-FR")}
-              </p>
+              <p className="font-display text-lg text-vert-profond">{p.nom_complet}</p>
+              <div className="flex items-center gap-4">
+                <p className="font-sans text-xs text-vert-profond/50">
+                  {new Date(p.created_at).toLocaleString("fr-FR")}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(p)}
+                  disabled={deletingId === p.id}
+                  className="font-sans text-xs uppercase tracking-widest text-camel hover:text-red-700 transition-colors disabled:opacity-50"
+                >
+                  {deletingId === p.id ? "…" : "Supprimer"}
+                </button>
+              </div>
             </div>
             <p className="font-sans text-sm text-vert-profond/85 leading-relaxed mt-3 whitespace-pre-wrap">
               {p.message}

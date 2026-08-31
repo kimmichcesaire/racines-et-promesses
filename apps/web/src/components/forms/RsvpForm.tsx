@@ -3,28 +3,70 @@
 import { FormEvent, useState } from "react";
 import { apiPost, ApiError } from "@/lib/api";
 
-type Status = "idle" | "loading" | "success" | "error";
+type Status = "idle" | "loading" | "error" | "success";
 
 export function RsvpForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [nbAccompagnants, setNbAccompagnants] = useState(0);
+  // Une seule case H et une seule case F au total, chacune avec un nombre —
+  // pas une paire par accompagnant : cocher H et mettre 1, cocher F et
+  // mettre 2, couvre déjà un groupe mixte de 3 (1 homme, 2 femmes).
+  const [hChecked, setHChecked] = useState(false);
+  const [hCount, setHCount] = useState(1);
+  const [fChecked, setFChecked] = useState(false);
+  const [fCount, setFCount] = useState(1);
+
+  const totalGenres = (hChecked ? hCount : 0) + (fChecked ? fCount : 0);
+
+  function handleNbAccompagnantsChange(value: number) {
+    setNbAccompagnants(Math.max(0, Math.min(20, value || 0)));
+  }
+
+  // Reconstitue un tableau ["H", "H", "F", ...] à partir des deux totaux —
+  // le format attendu par l'API (un genre par accompagnant) ne change pas.
+  function buildAccompagnants(): ("H" | "F")[] {
+    return [
+      ...Array(hChecked ? hCount : 0).fill("H" as const),
+      ...Array(fChecked ? fCount : 0).fill("F" as const),
+    ];
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("loading");
     setErrorMessage("");
 
-    const form = new FormData(event.currentTarget);
+    if (nbAccompagnants > 0 && totalGenres !== nbAccompagnants) {
+      setStatus("error");
+      setErrorMessage(
+        `Le nombre d'hommes et de femmes coché (${totalGenres}) ne correspond pas au nombre d'accompagnants déclaré (${nbAccompagnants}).`,
+      );
+      return;
+    }
+
+    setStatus("loading");
+
+    // Capturé avant le `await` : une fois l'événement terminé, le navigateur
+    // remet `event.currentTarget` à `null` — l'utiliser après l'attente
+    // provoquerait une erreur alors même que l'envoi a réussi.
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
 
     try {
       await apiPost("/rsvp", {
         nomComplet: String(form.get("nomComplet") ?? "").trim(),
         presence: form.get("presence") === "oui",
-        nbAccompagnants: Number(form.get("nbAccompagnants") ?? 0),
+        nbAccompagnants,
+        accompagnants: buildAccompagnants(),
         message: String(form.get("message") ?? "").trim() || undefined,
       });
       setStatus("success");
-      event.currentTarget.reset();
+      formElement.reset();
+      setNbAccompagnants(0);
+      setHChecked(false);
+      setHCount(1);
+      setFChecked(false);
+      setFCount(1);
     } catch (err) {
       setStatus("error");
       setErrorMessage(err instanceof ApiError ? err.message : "Une erreur est survenue.");
@@ -75,14 +117,70 @@ export function RsvpForm() {
         </label>
         <input
           id="nbAccompagnants"
-          name="nbAccompagnants"
           type="number"
           min={0}
           max={20}
-          defaultValue={0}
+          value={nbAccompagnants}
+          onChange={(e) => handleNbAccompagnantsChange(Number(e.target.value))}
           className="mt-1 w-24 rounded-md border border-beige-sable bg-white px-3 py-2 font-sans text-sm text-vert-profond focus:outline-none focus:ring-2 focus:ring-or-mat"
         />
       </div>
+
+      {nbAccompagnants > 0 && (
+        <div>
+          <p className="font-sans text-xs uppercase tracking-widest text-vert-profond/70">
+            Genre de vos accompagnants
+          </p>
+          <div className="mt-2 space-y-2">
+            <div className="flex items-center gap-3">
+              <label className="flex items-center gap-2 font-sans text-sm text-vert-profond">
+                <input
+                  type="checkbox"
+                  checked={hChecked}
+                  onChange={(e) => setHChecked(e.target.checked)}
+                />
+                H
+              </label>
+              {hChecked && (
+                <input
+                  type="number"
+                  min={1}
+                  max={nbAccompagnants}
+                  value={hCount}
+                  onChange={(e) => setHCount(Math.max(1, Number(e.target.value) || 1))}
+                  aria-label="Nombre d'hommes accompagnants"
+                  className="w-16 rounded-md border border-beige-sable bg-white px-2 py-1 font-sans text-sm text-vert-profond focus:outline-none focus:ring-2 focus:ring-or-mat"
+                />
+              )}
+            </div>
+            <div className="flex items-center gap-3">
+              <label className="flex items-center gap-2 font-sans text-sm text-vert-profond">
+                <input
+                  type="checkbox"
+                  checked={fChecked}
+                  onChange={(e) => setFChecked(e.target.checked)}
+                />
+                F
+              </label>
+              {fChecked && (
+                <input
+                  type="number"
+                  min={1}
+                  max={nbAccompagnants}
+                  value={fCount}
+                  onChange={(e) => setFCount(Math.max(1, Number(e.target.value) || 1))}
+                  aria-label="Nombre de femmes accompagnantes"
+                  className="w-16 rounded-md border border-beige-sable bg-white px-2 py-1 font-sans text-sm text-vert-profond focus:outline-none focus:ring-2 focus:ring-or-mat"
+                />
+              )}
+            </div>
+            <p className="font-sans text-xs text-vert-profond/50">
+              {totalGenres} / {nbAccompagnants} accompagnant{nbAccompagnants > 1 ? "s" : ""} renseigné
+              {totalGenres > 1 ? "s" : ""}
+            </p>
+          </div>
+        </div>
+      )}
 
       <div>
         <label htmlFor="message" className="font-sans text-xs uppercase tracking-widest text-vert-profond/70">

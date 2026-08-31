@@ -2,22 +2,33 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { apiGet } from "@/lib/api";
+import { apiDelete, apiGet } from "@/lib/api";
 import { getAdminToken, isUnauthorized, redirectToLogin } from "@/lib/admin-auth";
+
+type Genre = "H" | "F";
 
 type RsvpResponse = {
   id: string;
   nom_complet: string;
   presence: boolean;
   nb_accompagnants: number;
+  accompagnants: Genre[];
   message: string | null;
   created_at: string;
 };
+
+function genresList(accompagnants: Genre[]): string | null {
+  if (!accompagnants || accompagnants.length === 0) return null;
+  // Un genre par accompagnant, dans l'ordre où l'invité a coché H/F pour
+  // chacun sur la page Participation.
+  return accompagnants.join(", ");
+}
 
 export default function AdminRsvpPage() {
   const router = useRouter();
   const [responses, setResponses] = useState<RsvpResponse[] | null>(null);
   const [error, setError] = useState("");
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     const token = getAdminToken();
@@ -33,6 +44,39 @@ export default function AdminRsvpPage() {
         setError("Impossible de charger les réponses RSVP.");
       });
   }, [router]);
+
+  async function handleDelete(r: RsvpResponse) {
+    const token = getAdminToken();
+    if (!token) return;
+    if (
+      !window.confirm(
+        `Supprimer définitivement la réponse de ${r.nom_complet} ? Une prière envoyée sous ce même nom serait aussi supprimée automatiquement.`,
+      )
+    )
+      return;
+
+    setDeletingId(r.id);
+    try {
+      const result = await apiDelete<{ id: string; prieresSupprimees: number }>(
+        `/rsvp/${r.id}`,
+        token,
+      );
+      setResponses((prev) => prev?.filter((item) => item.id !== r.id) ?? null);
+      if (result.prieresSupprimees > 0) {
+        window.alert(
+          `Réponse supprimée. ${result.prieresSupprimees} prière${result.prieresSupprimees > 1 ? "s" : ""} envoyée${result.prieresSupprimees > 1 ? "s" : ""} sous ce nom ${result.prieresSupprimees > 1 ? "ont" : "a"} aussi été supprimée${result.prieresSupprimees > 1 ? "s" : ""}.`,
+        );
+      }
+    } catch (err) {
+      if (isUnauthorized(err)) {
+        redirectToLogin(router);
+        return;
+      }
+      window.alert("Impossible de supprimer cette réponse. Merci de réessayer.");
+    } finally {
+      setDeletingId(null);
+    }
+  }
 
   return (
     <div>
@@ -59,6 +103,7 @@ export default function AdminRsvpPage() {
                 <th className="px-5 py-3">Accompagnants</th>
                 <th className="px-5 py-3">Message</th>
                 <th className="px-5 py-3">Reçu le</th>
+                <th className="px-5 py-3" />
               </tr>
             </thead>
             <tbody>
@@ -74,10 +119,25 @@ export default function AdminRsvpPage() {
                       {r.presence ? "Présent(e)" : "Absent(e)"}
                     </span>
                   </td>
-                  <td className="px-5 py-3 tabular-nums text-vert-profond/80">{r.nb_accompagnants}</td>
+                  <td className="px-5 py-3 text-vert-profond/80">
+                    <span className="tabular-nums">{r.nb_accompagnants}</span>
+                    {genresList(r.accompagnants) && (
+                      <p className="text-xs text-vert-profond/60 mt-1">{genresList(r.accompagnants)}</p>
+                    )}
+                  </td>
                   <td className="px-5 py-3 text-vert-profond/80 max-w-xs">{r.message || "—"}</td>
                   <td className="px-5 py-3 text-vert-profond/60 whitespace-nowrap">
                     {new Date(r.created_at).toLocaleString("fr-FR")}
+                  </td>
+                  <td className="px-5 py-3 text-right">
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(r)}
+                      disabled={deletingId === r.id}
+                      className="font-sans text-xs uppercase tracking-widest text-camel hover:text-red-700 transition-colors disabled:opacity-50"
+                    >
+                      {deletingId === r.id ? "…" : "Supprimer"}
+                    </button>
                   </td>
                 </tr>
               ))}

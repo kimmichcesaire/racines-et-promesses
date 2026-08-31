@@ -17,18 +17,21 @@ export function PrayerForm() {
     setStatus("loading");
     setErrorMessage("");
 
-    const form = new FormData(event.currentTarget);
+    // Capturé avant le `await` : une fois l'événement terminé, le navigateur
+    // remet `event.currentTarget` à `null` — l'utiliser après l'attente
+    // provoquerait une erreur alors même que l'envoi a réussi.
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
 
     try {
       await apiPost("/prayers", {
-        nom: String(form.get("nom") ?? "").trim(),
-        prenom: String(form.get("prenom") ?? "").trim(),
+        nomComplet: String(form.get("nomComplet") ?? "").trim(),
         message: String(form.get("message") ?? "").trim(),
         consentementRgpd: consent,
         siteWeb: String(form.get("siteWeb") ?? ""), // honeypot
       });
       setStatus("success");
-      event.currentTarget.reset();
+      formElement.reset();
       setConsent(false);
     } catch (err) {
       setStatus("error");
@@ -47,39 +50,24 @@ export function PrayerForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5 text-left">
       <p className="font-sans text-xs text-vert-profond/70 leading-relaxed bg-ivoire border border-beige-sable rounded-lg p-4">
-        Les informations transmises via ce formulaire (nom, prénom, message) sont destinées
+        Les informations transmises via ce formulaire (nom complet, message) sont destinées
         uniquement à Luciana et Ben. Elles ne seront ni publiées sur le site, ni communiquées
         à des tiers, et seront conservées jusqu&apos;à la fin de la période de préparation du
         mariage.
       </p>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label htmlFor="prenom" className="font-sans text-xs uppercase tracking-widest text-vert-profond/70">
-            Prénom
-          </label>
-          <input
-            id="prenom"
-            name="prenom"
-            type="text"
-            required
-            maxLength={80}
-            className="mt-1 w-full rounded-md border border-beige-sable bg-white px-3 py-2 font-sans text-sm text-vert-profond focus:outline-none focus:ring-2 focus:ring-or-mat"
-          />
-        </div>
-        <div>
-          <label htmlFor="nom" className="font-sans text-xs uppercase tracking-widest text-vert-profond/70">
-            Nom
-          </label>
-          <input
-            id="nom"
-            name="nom"
-            type="text"
-            required
-            maxLength={80}
-            className="mt-1 w-full rounded-md border border-beige-sable bg-white px-3 py-2 font-sans text-sm text-vert-profond focus:outline-none focus:ring-2 focus:ring-or-mat"
-          />
-        </div>
+      <div>
+        <label htmlFor="nomComplet" className="font-sans text-xs uppercase tracking-widest text-vert-profond/70">
+          Nom complet
+        </label>
+        <input
+          id="nomComplet"
+          name="nomComplet"
+          type="text"
+          required
+          maxLength={120}
+          className="mt-1 w-full rounded-md border border-beige-sable bg-white px-3 py-2 font-sans text-sm text-vert-profond focus:outline-none focus:ring-2 focus:ring-or-mat"
+        />
       </div>
 
       <div>
@@ -110,7 +98,7 @@ export function PrayerForm() {
           required
           className="mt-0.5"
         />
-        J&apos;accepte que ce message, ainsi que mon nom et prénom, soient transmis à
+        J&apos;accepte que ce message, ainsi que mon nom complet, soient transmis à
         Luciana et Ben dans le cadre de ce formulaire.
       </label>
 

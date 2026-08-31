@@ -2,12 +2,8 @@ import { Equals, IsOptional, IsString, Length } from 'class-validator';
 
 export class CreatePrayerDto {
   @IsString()
-  @Length(1, 80)
-  nom!: string;
-
-  @IsString()
-  @Length(1, 80)
-  prenom!: string;
+  @Length(2, 120)
+  nomComplet!: string;
 
   @IsString()
   @Length(1, 3000)

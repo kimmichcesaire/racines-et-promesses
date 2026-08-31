@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -29,5 +31,11 @@ export class PrayersController {
   @Throttle({ default: { limit: 5, ttl: 600_000 } })
   create(@Body() dto: CreatePrayerDto) {
     return this.prayersService.create(dto);
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  remove(@Param('id') id: string) {
+    return this.prayersService.remove(id);
   }
 }

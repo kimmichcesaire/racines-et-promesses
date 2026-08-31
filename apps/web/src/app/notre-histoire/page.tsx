@@ -3,13 +3,19 @@ import { Verse } from "@/components/Verse";
 import { PageWatermark } from "@/components/PageWatermark";
 import { WatermarkCard } from "@/components/WatermarkCard";
 import { PhotoGallery } from "@/components/PhotoGallery";
+import { BlockText } from "@/components/BlockText";
+import { getContentBlocks } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Notre histoire — Racines & Promesses",
   description: "Le récit chronologique de Luciana & Ben.",
 };
 
-export default function NotreHistoirePage() {
+const FALLBACK_RECIT = `Le récit chronologique détaillé de Luciana & Ben prendra place ici : leur rencontre à Lille, la période du Covid et leurs premiers échanges, la distance entre Nice et Reims, le rôle de Dieu dans leur histoire, la naissance de la soif spirituelle de Ben, leur décision de se marier, leur vision du foyer, et le cheminement spirituel qui les a menés jusqu'ici.`;
+
+export default async function NotreHistoirePage() {
+  const blocks = await getContentBlocks("notre-histoire");
+
   return (
     <section className="relative px-6 py-20 sm:py-28 overflow-hidden">
       <PageWatermark />
@@ -21,13 +27,7 @@ export default function NotreHistoirePage() {
         </p>
 
         <div className="font-sans text-[15px] leading-relaxed text-vert-profond/85 space-y-6 mt-10 text-left">
-          <p>
-            Le récit chronologique détaillé de Luciana &amp; Ben prendra place ici : leur
-            rencontre à Lille, la période du Covid et leurs premiers échanges, la distance
-            entre Nice et Reims, le rôle de Dieu dans leur histoire, la naissance de la soif
-            spirituelle de Ben, leur décision de se marier, leur vision du foyer, et le
-            cheminement spirituel qui les a menés jusqu&apos;ici.
-          </p>
+          <BlockText text={blocks.recit?.contenu ?? FALLBACK_RECIT} />
           <p className="text-vert-profond/60 italic">
             Cette page sera complétée avec le couple, accompagnée des photos de leur séance
             en cours.

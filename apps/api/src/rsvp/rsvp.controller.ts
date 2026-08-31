@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -30,5 +32,11 @@ export class RsvpController {
   @Throttle({ default: { limit: 5, ttl: 600_000 } })
   create(@Body() dto: CreateRsvpDto) {
     return this.rsvpService.create(dto);
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  remove(@Param('id') id: string) {
+    return this.rsvpService.remove(id);
   }
 }

@@ -15,8 +15,7 @@ export class EmailService {
   constructor(private readonly config: ConfigService) {}
 
   async sendPrayerNotification(params: {
-    nom: string;
-    prenom: string;
+    nomComplet: string;
     message: string;
   }) {
     const apiKey = this.config.get<string>('RESEND_API_KEY');
@@ -25,7 +24,7 @@ export class EmailService {
 
     if (!apiKey || !to || !from) {
       this.logger.warn(
-        `Notification email non envoyée (config Resend absente) — nouvelle prière de ${params.prenom} ${params.nom}.`,
+        `Notification email non envoyée (config Resend absente) — nouvelle prière de ${params.nomComplet}.`,
       );
       return;
     }
@@ -40,7 +39,7 @@ export class EmailService {
         body: JSON.stringify({
           from,
           to,
-          subject: `Nouvelle prière de ${params.prenom} ${params.nom}`,
+          subject: `Nouvelle prière de ${params.nomComplet}`,
           text: params.message,
         }),
       });

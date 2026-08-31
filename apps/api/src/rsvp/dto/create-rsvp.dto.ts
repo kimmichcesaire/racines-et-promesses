@@ -1,5 +1,8 @@
 import {
+  ArrayMaxSize,
+  IsArray,
   IsBoolean,
+  IsIn,
   IsInt,
   IsOptional,
   IsString,
@@ -20,6 +23,14 @@ export class CreateRsvpDto {
   @Min(0)
   @Max(20)
   nbAccompagnants!: number;
+
+  // Genre de chaque accompagnant ("H" ou "F"), un par accompagnant déclaré —
+  // le couple veut connaître la répartition, pas les noms individuels.
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(20)
+  @IsIn(['H', 'F'], { each: true })
+  accompagnants?: ('H' | 'F')[];
 
   @IsOptional()
   @IsString()

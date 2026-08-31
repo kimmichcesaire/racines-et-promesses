@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { SupabaseService } from '../supabase/supabase.service';
 import { EmailService } from '../notifications/email.service';
 import { CreatePrayerDto } from './dto/create-prayer.dto';
@@ -15,7 +19,7 @@ export class PrayersService {
     const { data, error } = await this.supabase
       .getClient()
       .from('prayers')
-      .select('id, nom, prenom, message, consentement_rgpd, created_at')
+      .select('id, nom_complet, message, consentement_rgpd, created_at')
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -38,8 +42,7 @@ export class PrayersService {
       .getClient()
       .from('prayers')
       .insert({
-        nom: dto.nom,
-        prenom: dto.prenom,
+        nom_complet: dto.nomComplet,
         message: dto.message,
         consentement_rgpd: dto.consentementRgpd,
         // visible_publiquement reste à sa valeur par défaut (false) — jamais
@@ -56,11 +59,40 @@ export class PrayersService {
 
     // La prière reste enregistrée même si la notification échoue.
     void this.email.sendPrayerNotification({
-      nom: dto.nom,
-      prenom: dto.prenom,
+      nomComplet: dto.nomComplet,
       message: dto.message,
     });
 
     return data;
+  }
+
+  // Réservé à l'espace admin : permet au couple de retirer une prière lue.
+  async remove(id: string) {
+    const client = this.supabase.getClient();
+
+    const existing = await client
+      .from('prayers')
+      .select('id')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (existing.error) {
+      throw new InternalServerErrorException(
+        'Impossible de vérifier cette prière.',
+      );
+    }
+    if (!existing.data) {
+      throw new NotFoundException('Prière introuvable.');
+    }
+
+    const { error } = await client.from('prayers').delete().eq('id', id);
+
+    if (error) {
+      throw new InternalServerErrorException(
+        'Impossible de supprimer cette prière.',
+      );
+    }
+
+    return { id };
   }
 }

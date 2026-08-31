@@ -73,7 +73,7 @@ export function SiteHeader() {
         >
           <span
             className={`absolute h-[1.5px] w-5 bg-vert-profond transition-all duration-300 ease-out ${
-              open ? "rotate-45" : "-translate-y-[6px]"
+              open ? "rotate-45" : "-translate-y-1.5"
             }`}
           />
           <span
@@ -83,7 +83,7 @@ export function SiteHeader() {
           />
           <span
             className={`absolute h-[1.5px] w-5 bg-vert-profond transition-all duration-300 ease-out ${
-              open ? "-rotate-45" : "translate-y-[6px]"
+              open ? "-rotate-45" : "translate-y-1.5"
             }`}
           />
         </button>

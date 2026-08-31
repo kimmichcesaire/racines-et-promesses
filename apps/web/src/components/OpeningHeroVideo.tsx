@@ -32,7 +32,7 @@ export function OpeningHeroVideo() {
         controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
         aria-hidden="true"
       >
-        <source src="/logo/ivory_hd.mp4" type="video/mp4" />
+        <source src="/logo/ivory.mp4" type="video/mp4" />
       </video>
     </div>
   );

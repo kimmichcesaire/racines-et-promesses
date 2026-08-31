@@ -3,8 +3,33 @@ import { Verse } from "@/components/Verse";
 import { SaveTheDate } from "@/components/SaveTheDate";
 import { Reveal } from "@/components/Reveal";
 import { OpeningHeroVideo } from "@/components/OpeningHeroVideo";
+import { BlockText } from "@/components/BlockText";
+import { getContentBlocks } from "@/lib/content";
 
-export default function AccueilPage() {
+// Repli affiché si l'API/Supabase est injoignable — identique au texte
+// seedé en base (cahier des charges, section 5), pour que la page reste
+// correcte même quand le contenu dynamique ne peut pas être chargé.
+const FALLBACK = {
+  ecran_2: `Notre histoire ne commence pas simplement avec le jour où nous nous sommes rencontrés. Elle est faite de tout ce qui nous a précédés, de tout ce que nous avons traversé et de tout ce que Dieu nous a permis de devenir. Aujourd'hui, deux histoires se rejoignent pour commencer à en écrire une nouvelle.
+
+NOS RACINES : notre foi, nos familles, notre histoire, les personnes qui ont semé dans nos vies et les valeurs que nous voulons porter dans notre foyer.
+
+NOTRE ALLIANCE : le choix de marcher ensemble, de bâtir ensemble et de demeurer attachés à la même source.
+
+NOS PROMESSES : le foyer que nous voulons construire, les générations à venir et le fruit que nous désirons porter.`,
+  ecran_3: `Rencontre à Lille, les premiers échanges pendant le Covid, la distance entre Nice et Reims, le rôle de Dieu dans leur histoire, la naissance de la soif spirituelle de Ben, la décision du mariage, la vision de leur foyer, le fruit et l'héritage qu'ils désirent porter, et ce qu'ils admirent l'un chez l'autre.`,
+  ecran_4: `Nous ne voulons pas seulement construire une vie ensemble. Nous voulons que l'Éternel bâtisse notre maison. Nous voulons que notre foyer soit enraciné dans Sa Parole, conduit par Sa présence et orienté vers Son œuvre.
+
+UN FOYER POUR SA GLOIRE : notre mariage doit être plus qu'une union entre deux personnes — un témoignage vivant de la grâce de Dieu sur la terre.
+
+PORTER DU FRUIT : relation avec Dieu, amour, service, vies touchées et transmission aux générations.`,
+  ecran_6: `Nous vous invitons à garder cette période libre afin de célébrer avec nous une nouvelle étape de notre histoire. La date exacte vous sera communiquée prochainement.`,
+  ecran_7: `Une alliance ne se construit jamais seule. Derrière notre histoire se trouvent des personnes qui ont prié, aimé, encouragé, conseillé et semé dans nos vies. Aujourd'hui, nous souhaitons vous donner la possibilité de prendre part à cette nouvelle saison.`,
+};
+
+export default async function AccueilPage() {
+  const blocks = await getContentBlocks("accueil");
+
   return (
     <>
       {/* Écran 1 — Ouverture */}
@@ -59,26 +84,10 @@ export default function AccueilPage() {
             « Une histoire qui prend racine. Une alliance qui porte une promesse. »
           </p>
           <div className="font-sans text-[15px] leading-relaxed text-vert-profond/90 space-y-5 text-left sm:text-center">
-            <p>
-              Notre histoire ne commence pas simplement avec le jour où nous nous sommes
-              rencontrés. Elle est faite de tout ce qui nous a précédés, de tout ce que nous
-              avons traversé et de tout ce que Dieu nous a permis de devenir. Aujourd&apos;hui,
-              deux histoires se rejoignent pour commencer à en écrire une nouvelle.
-            </p>
-            <p>
-              <strong className="text-vert-profond">NOS RACINES</strong> : notre foi, nos
-              familles, notre histoire, les personnes qui ont semé dans nos vies et les
-              valeurs que nous voulons porter dans notre foyer.
-            </p>
-            <p>
-              <strong className="text-vert-profond">NOTRE ALLIANCE</strong> : le choix de
-              marcher ensemble, de bâtir ensemble et de demeurer attachés à la même source.
-            </p>
-            <p>
-              <strong className="text-vert-profond">NOS PROMESSES</strong> : le foyer que
-              nous voulons construire, les générations à venir et le fruit que nous
-              désirons porter.
-            </p>
+            <BlockText
+              text={blocks.ecran_2?.contenu ?? FALLBACK.ecran_2}
+              labelClassName="text-vert-profond"
+            />
           </div>
           <p className="font-display text-lg tracking-wide text-vert-profond mt-8">
             DE NOS RACINES NAÎTRA NOTRE HÉRITAGE.
@@ -99,13 +108,7 @@ export default function AccueilPage() {
             Texte en cours de révision par Luciana
           </p>
           <div className="font-sans text-[15px] leading-relaxed text-vert-profond/80 space-y-4">
-            <p>
-              Rencontre à Lille, les premiers échanges pendant le Covid, la distance entre
-              Nice et Reims, le rôle de Dieu dans leur histoire, la naissance de la soif
-              spirituelle de Ben, la décision du mariage, la vision de leur foyer, le fruit
-              et l&apos;héritage qu&apos;ils désirent porter, et ce qu&apos;ils admirent
-              l&apos;un chez l&apos;autre.
-            </p>
+            <BlockText text={blocks.ecran_3?.contenu ?? FALLBACK.ecran_3} />
           </div>
           <div className="mt-8">
             <Verse reference="Psaume 127:1">
@@ -130,20 +133,10 @@ export default function AccueilPage() {
             <span className="not-italic text-or-mat">— Jérémie 17:8</span>
           </p>
           <div className="font-sans text-[15px] leading-relaxed text-ivoire/85 space-y-5 mt-8">
-            <p>
-              Nous ne voulons pas seulement construire une vie ensemble. Nous voulons que
-              l&apos;Éternel bâtisse notre maison. Nous voulons que notre foyer soit
-              enraciné dans Sa Parole, conduit par Sa présence et orienté vers Son œuvre.
-            </p>
-            <p>
-              <strong className="text-or-mat">UN FOYER POUR SA GLOIRE</strong> : notre
-              mariage doit être plus qu&apos;une union entre deux personnes — un témoignage
-              vivant de la grâce de Dieu sur la terre.
-            </p>
-            <p>
-              <strong className="text-or-mat">PORTER DU FRUIT</strong> : relation avec Dieu,
-              amour, service, vies touchées et transmission aux générations.
-            </p>
+            <BlockText
+              text={blocks.ecran_4?.contenu ?? FALLBACK.ecran_4}
+              labelClassName="text-or-mat"
+            />
           </div>
           <p className="font-display text-lg tracking-wide mt-8">NOTRE SOURCE, C&apos;EST CHRIST.</p>
           <a
@@ -211,15 +204,13 @@ export default function AccueilPage() {
           <p className="font-sans text-xs uppercase tracking-[0.3em] text-or-mat mb-3">
             Save the date
           </p>
-          <SaveTheDate dateEvenement={null} />
+          <SaveTheDate dateEvenement={blocks.ecran_6?.date_evenement ?? null} />
           <p className="font-display italic text-lg text-vert-profond/80 mt-2">
             Une nouvelle saison commence.
           </p>
-          <p className="font-sans text-[15px] leading-relaxed text-vert-profond/85 max-w-xl mx-auto mt-6">
-            Nous vous invitons à garder cette période libre afin de célébrer avec nous une
-            nouvelle étape de notre histoire. La date exacte vous sera communiquée
-            prochainement.
-          </p>
+          <div className="font-sans text-[15px] leading-relaxed text-vert-profond/85 max-w-xl mx-auto mt-6">
+            <BlockText text={blocks.ecran_6?.contenu ?? FALLBACK.ecran_6} />
+          </div>
           {/* Emplacement réservé pour la vidéo Save the Date (YouTube/Vimeo), en préparation par le couple. */}
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <button
@@ -244,12 +235,9 @@ export default function AccueilPage() {
           <h2 className="font-display text-3xl text-vert-profond">
             Vous faites partie de notre histoire
           </h2>
-          <p className="font-sans text-[15px] leading-relaxed text-vert-profond/85 max-w-xl mx-auto mt-6">
-            Une alliance ne se construit jamais seule. Derrière notre histoire se trouvent des
-            personnes qui ont prié, aimé, encouragé, conseillé et semé dans nos vies.
-            Aujourd&apos;hui, nous souhaitons vous donner la possibilité de prendre part à
-            cette nouvelle saison.
-          </p>
+          <div className="font-sans text-[15px] leading-relaxed text-vert-profond/85 max-w-xl mx-auto mt-6">
+            <BlockText text={blocks.ecran_7?.contenu ?? FALLBACK.ecran_7} />
+          </div>
           <p className="font-display italic text-lg text-or-mat mt-6">
             Chacun peut semer à sa manière.
           </p>
