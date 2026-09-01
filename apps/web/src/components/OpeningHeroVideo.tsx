@@ -19,7 +19,7 @@
  */
 export function OpeningHeroVideo() {
   return (
-    <div className="mx-auto w-[230px] sm:w-[300px] md:w-[340px]">
+    <div className="mx-auto w-57.5 sm:w-75 md:w-85">
       <video
         className="block aspect-square w-full object-contain object-center"
         autoPlay
