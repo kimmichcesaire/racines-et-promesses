@@ -4,6 +4,7 @@ import { SaveTheDate } from "@/components/SaveTheDate";
 import { Reveal } from "@/components/Reveal";
 import { OpeningHeroVideo } from "@/components/OpeningHeroVideo";
 import { BlockText } from "@/components/BlockText";
+import { ShareSaveTheDateButton } from "@/components/ShareSaveTheDateButton";
 import { getContentBlocks } from "@/lib/content";
 
 // Repli affiché si l'API/Supabase est injoignable — identique au texte
@@ -219,12 +220,7 @@ export default async function AccueilPage() {
             >
               Restez à l&apos;écoute
             </button>
-            <button
-              type="button"
-              className="font-sans text-xs uppercase tracking-widest bg-vert-profond text-ivoire px-6 py-3 rounded-full hover:bg-or-mat transition-colors"
-            >
-              Partager le save the date
-            </button>
+            <ShareSaveTheDateButton />
           </div>
         </Reveal>
       </section>
