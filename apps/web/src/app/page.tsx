@@ -5,6 +5,7 @@ import { Reveal } from "@/components/Reveal";
 import { OpeningHeroVideo } from "@/components/OpeningHeroVideo";
 import { BlockText } from "@/components/BlockText";
 import { ShareSaveTheDateButton } from "@/components/ShareSaveTheDateButton";
+import { AddToCalendarButton } from "@/components/AddToCalendarButton";
 import { getContentBlocks } from "@/lib/content";
 
 // Repli affiché si l'API/Supabase est injoignable — identique au texte
@@ -214,12 +215,7 @@ export default async function AccueilPage() {
           </div>
           {/* Emplacement réservé pour la vidéo Save the Date (YouTube/Vimeo), en préparation par le couple. */}
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <button
-              type="button"
-              className="font-sans text-xs uppercase tracking-widest border border-vert-profond text-vert-profond px-6 py-3 rounded-full hover:bg-vert-profond hover:text-ivoire transition-colors"
-            >
-              Restez à l&apos;écoute
-            </button>
+            <AddToCalendarButton dateEvenement={blocks.ecran_6?.date_evenement ?? null} />
             <ShareSaveTheDateButton />
           </div>
         </Reveal>
