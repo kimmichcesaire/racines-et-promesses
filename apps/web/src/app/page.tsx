@@ -261,13 +261,26 @@ export default async function AccueilPage() {
               cta: "Découvrir",
               href: "/participation#cadeau",
             },
+            {
+              titre: "COMMENT S'HABILLER",
+              texte: "Un aperçu de la tenue souhaitée",
+              cta: "Voir la photo",
+              href: "/participation#tenue",
+              uppercaseTitre: true,
+            },
           ].map((bloc, i) => (
             <Reveal key={bloc.titre} delayMs={i * 100}>
               <Link
                 href={bloc.href}
                 className="block rounded-lg border border-beige-sable bg-ivoire p-6 text-left hover:border-or-mat transition-colors"
               >
-                <p className="font-display text-lg text-vert-profond">{bloc.titre}</p>
+                <p
+                  className={`font-display text-lg text-vert-profond ${
+                    bloc.uppercaseTitre ? "uppercase tracking-wide" : ""
+                  }`}
+                >
+                  {bloc.titre}
+                </p>
                 <p className="font-sans text-sm text-vert-profond/75 mt-1">{bloc.texte}</p>
                 <span className="inline-block font-sans text-xs uppercase tracking-widest text-or-mat mt-4">
                   {bloc.cta} →
