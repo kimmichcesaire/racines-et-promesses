@@ -5,13 +5,14 @@ import { useRouter } from "next/navigation";
 import { API_URL, apiGet, apiPatch, ApiError } from "@/lib/api";
 import { getAdminToken, isUnauthorized, redirectToLogin } from "@/lib/admin-auth";
 
-type ParticipationLink = { type: "lydia" | "rib"; valeur: string };
+type ParticipationLink = { type: "lydia" | "rib" | "wero"; valeur: string };
 type ContentBlock = { section: string; contenu: string };
 
 export default function AdminParticipationPage() {
   const router = useRouter();
   const [lydia, setLydia] = useState("");
   const [rib, setRib] = useState("");
+  const [wero, setWero] = useState("");
   const [tenuePhotoUrl, setTenuePhotoUrl] = useState("");
   const [loaded, setLoaded] = useState(false);
 
@@ -26,6 +27,7 @@ export default function AdminParticipationPage() {
       .then(([links, blocks]) => {
         setLydia(links.find((l) => l.type === "lydia")?.valeur ?? "");
         setRib(links.find((l) => l.type === "rib")?.valeur ?? "");
+        setWero(links.find((l) => l.type === "wero")?.valeur ?? "");
         setTenuePhotoUrl(blocks.find((b) => b.section === "tenue_photo_url")?.contenu ?? "");
         setLoaded(true);
       })
@@ -36,7 +38,7 @@ export default function AdminParticipationPage() {
 
   return (
     <div>
-      <h1 className="font-display text-3xl text-vert-profond">Lien Lydia &amp; RIB</h1>
+      <h1 className="font-display text-3xl text-vert-profond">Lien Lydia, Wero &amp; RIB</h1>
       <p className="font-sans text-sm text-vert-profond/70 mt-2">
         Affichés sur la page Participation, section « Semence &amp; Cadeau ».
       </p>
@@ -44,7 +46,14 @@ export default function AdminParticipationPage() {
       {loaded && (
         <div className="mt-8 space-y-6 max-w-xl">
           <LinkEditor type="lydia" label="Lien Lydia" value={lydia} onSaved={setLydia} />
-          <LinkEditor type="rib" label="RIB (texte affiché tel quel)" value={rib} onSaved={setRib} multiline />
+          <LinkEditor type="wero" label="Numéro Wero" value={wero} onSaved={setWero} />
+          <LinkEditor
+            type="rib"
+            label="RIB (texte affiché tel quel — plusieurs IBAN possibles, un par ligne)"
+            value={rib}
+            onSaved={setRib}
+            multiline
+          />
           <DressCodePhotoEditor value={tenuePhotoUrl} onSaved={setTenuePhotoUrl} />
         </div>
       )}
@@ -149,7 +158,7 @@ function LinkEditor({
   onSaved,
   multiline,
 }: {
-  type: "lydia" | "rib";
+  type: "lydia" | "rib" | "wero";
   label: string;
   value: string;
   onSaved: (value: string) => void;

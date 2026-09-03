@@ -25,8 +25,11 @@ export class ParticipationLinksService {
     return data;
   }
 
-  // Réservé à l'espace admin : mise à jour du lien Lydia ou du RIB (cahier des charges, 7.4).
-  async update(type: 'lydia' | 'rib', dto: UpdateParticipationLinkDto) {
+  // Réservé à l'espace admin : mise à jour du lien Lydia, du RIB ou du numéro Wero (cahier des charges, 7.4).
+  async update(
+    type: 'lydia' | 'rib' | 'wero',
+    dto: UpdateParticipationLinkDto,
+  ) {
     const { data, error } = await this.supabase
       .getClient()
       .from('participation_links')

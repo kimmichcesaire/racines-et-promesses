@@ -25,9 +25,9 @@ export class ParticipationLinksController {
   @Patch(':type')
   @UseGuards(JwtAuthGuard)
   update(@Param('type') type: string, @Body() dto: UpdateParticipationLinkDto) {
-    if (type !== 'lydia' && type !== 'rib') {
+    if (type !== 'lydia' && type !== 'rib' && type !== 'wero') {
       throw new BadRequestException(
-        "Type de lien invalide : attendu 'lydia' ou 'rib'.",
+        "Type de lien invalide : attendu 'lydia', 'rib' ou 'wero'.",
       );
     }
     return this.service.update(type, dto);

@@ -1,6 +1,6 @@
 import { API_URL } from "@/lib/api";
 
-type ParticipationLink = { type: "lydia" | "rib"; valeur: string };
+type ParticipationLink = { type: "lydia" | "rib" | "wero"; valeur: string };
 
 async function getParticipationLinks(): Promise<ParticipationLink[]> {
   try {
@@ -17,9 +17,10 @@ async function getParticipationLinks(): Promise<ParticipationLink[]> {
 export async function ContributionBlock() {
   const links = await getParticipationLinks();
   const lydia = links.find((l) => l.type === "lydia");
+  const wero = links.find((l) => l.type === "wero" && l.valeur);
   const rib = links.find((l) => l.type === "rib");
 
-  if (!lydia && !rib) {
+  if (!lydia && !wero && !rib) {
     return (
       <p className="font-sans text-sm text-vert-profond/60 italic">
         Les informations de contribution seront disponibles très prochainement.
@@ -46,12 +47,22 @@ export async function ContributionBlock() {
           </a>
         </div>
       )}
+      {wero && (
+        <div>
+          <p className="font-sans text-xs uppercase tracking-widest text-vert-profond/70 mb-1">
+            Ou via Wero
+          </p>
+          <p className="font-sans text-sm text-vert-profond bg-white border border-beige-sable rounded-md px-4 py-2 inline-block">
+            {wero.valeur}
+          </p>
+        </div>
+      )}
       {rib && (
         <div>
           <p className="font-sans text-xs uppercase tracking-widest text-vert-profond/70 mb-1">
             Ou par virement
           </p>
-          <p className="font-sans text-sm text-vert-profond bg-white border border-beige-sable rounded-md px-4 py-2 inline-block">
+          <p className="font-sans text-sm text-vert-profond bg-white border border-beige-sable rounded-md px-4 py-2 inline-block whitespace-pre-wrap">
             {rib.valeur}
           </p>
         </div>
