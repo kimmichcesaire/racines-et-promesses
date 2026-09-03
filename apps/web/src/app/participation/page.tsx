@@ -5,6 +5,7 @@ import { ContributionBlock } from "@/components/ContributionBlock";
 import { PageWatermark } from "@/components/PageWatermark";
 import { WatermarkCard } from "@/components/WatermarkCard";
 import { BlockText } from "@/components/BlockText";
+import { ZoomableImage } from "@/components/ZoomableImage";
 import { getContentBlocks } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 
 const FALLBACK_INTRO = `Une alliance ne se construit jamais seule. Aujourd'hui, nous souhaitons vous donner la possibilité de prendre part à cette nouvelle saison.`;
 
-const FALLBACK_TENUE_TEXTE = `Nous serons ravis de vous voir sur votre 31 ! Voici un aperçu de la tenue souhaitée pour notre mariage.`;
+const FALLBACK_TENUE_TEXTE = `Voici un aperçu du code vestimentaire pour notre mariage.`;
 
 export default async function ParticipationPage() {
   const blocks = await getContentBlocks("participation");
@@ -37,6 +38,22 @@ export default async function ParticipationPage() {
       </WatermarkCard>
 
       <div className="relative mx-auto max-w-xl mt-16 space-y-16">
+        {tenuePhotoUrl && (
+          <WatermarkCard id="tenue" className="text-center">
+            <h2 className="font-display text-2xl text-vert-profond mb-4">
+              Comment s&apos;habiller ?
+            </h2>
+            <ZoomableImage
+              src={tenuePhotoUrl}
+              alt="Aperçu de la tenue vestimentaire souhaitée"
+              className="mx-auto block max-h-105 rounded-lg border border-beige-sable/40"
+            />
+            <div className="font-sans text-sm text-vert-profond/80 mt-6 max-w-md mx-auto">
+              <BlockText text={blocks.tenue_texte?.contenu ?? FALLBACK_TENUE_TEXTE} />
+            </div>
+          </WatermarkCard>
+        )}
+
         <WatermarkCard id="presence">
           <h2 className="font-display text-2xl text-vert-profond text-center mb-6">Présence</h2>
           <RsvpForm />
@@ -56,23 +73,6 @@ export default async function ParticipationPage() {
             <ContributionBlock />
           </div>
         </WatermarkCard>
-
-        {tenuePhotoUrl && (
-          <WatermarkCard id="tenue" className="text-center">
-            <h2 className="font-display text-2xl text-vert-profond mb-4">
-              Comment s&apos;habiller ?
-            </h2>
-            {/* eslint-disable-next-line @next/next/no-img-element -- image distante du bucket Supabase */}
-            <img
-              src={tenuePhotoUrl}
-              alt="Aperçu de la tenue vestimentaire souhaitée"
-              className="mx-auto max-h-105 rounded-lg border border-beige-sable/40 object-contain"
-            />
-            <div className="font-sans text-sm text-vert-profond/80 mt-6 max-w-md mx-auto">
-              <BlockText text={blocks.tenue_texte?.contenu ?? FALLBACK_TENUE_TEXTE} />
-            </div>
-          </WatermarkCard>
-        )}
       </div>
 
       <p className="relative text-center font-display text-lg tracking-wide text-vert-profond mt-20">
