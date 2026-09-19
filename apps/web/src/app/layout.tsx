@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Work_Sans } from "next/font/google";
+import { Fraunces, Work_Sans } from "next/font/google";
 import { SiteChrome } from "@/components/SiteChrome";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+// Alternative gratuite (Google Fonts, licence OFL — libre d'usage commercial
+// et d'intégration web) à "Quiche" (fonderie Kostic Type, non disponible en
+// licence web libre) : serif élégante et organique dans le même esprit.
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
@@ -41,7 +44,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="fr"
-      className={`${cormorant.variable} ${workSans.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${workSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-ivoire text-vert-profond">
         <noscript>
