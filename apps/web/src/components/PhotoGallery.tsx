@@ -5,11 +5,9 @@ type MediaItem = { id: string; url: string; type: "photo" | "video" };
 
 async function getMedia(): Promise<MediaItem[]> {
   try {
-    // Toujours interrogé sans cache : les médias sont ajoutés/supprimés
-    // rarement mais doivent apparaître immédiatement sur le site public dès
-    // qu'un changement est fait en admin (contrairement à `revalidateTag`,
-    // qui ne garantit qu'une mise à jour différée en arrière-plan).
-    const res = await fetch(`${API_URL}/gallery-media`, { cache: "no-store" });
+    // Mis en cache 60s : les médias sont ajoutés/supprimés rarement, inutile
+    // de refaire un aller-retour réseau à chaque navigation d'un visiteur.
+    const res = await fetch(`${API_URL}/gallery-media`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     return res.json();
   } catch {

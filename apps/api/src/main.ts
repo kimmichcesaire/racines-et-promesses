@@ -1,12 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
+import compression from 'compression';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.use(helmet());
+  app.use(compression());
 
   // WEB_APP_URL accepte une liste séparée par des virgules : ça permet de
   // développer via localhost et de tester depuis un téléphone sur le même
