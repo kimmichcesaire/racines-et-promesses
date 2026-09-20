@@ -1,23 +1,23 @@
 @import "tailwindcss";
 
 /*
- * Racines & Promesses — charte graphique validée (cahier des charges, section 10).
- * Palette figée avec le couple : ne pas ajouter de teintes hors de cette liste
- * sans validation. `vert-profond` est une dérivation du vert sauge, réservée
- * au texte, pour garantir un contraste conforme WCAG AA sur fond clair.
+ * Racines & Promesses — charte graphique v2 (vert olive/kaki inspiré d'un
+ * visuel de référence fourni par le couple, remplace le vert forêt initial).
+ * `vert-profond` reste réservé au texte : vérifié pour garantir un contraste
+ * conforme WCAG AA sur fond clair (ivoire) malgré le ton plus clair.
  */
 :root {
   --color-blanc-pur: #ffffff;
-  --color-ivoire: #f8f4ed;
-  --color-beige-sable: #d9c7a5;
-  --color-camel: #b68a5a;
-  --color-vert-sauge: #7d8f72;
-  --color-vert-profond: #3e4b36;
-  --color-or-mat: #c6a15b;
+  --color-ivoire: #f6f2e8;
+  --color-beige-sable: #e3ddc8;
+  --color-camel: #a9834f;
+  --color-vert-sauge: #7c7e64;
+  --color-vert-profond: #5b5c46;
+  --color-or-mat: #b8925c;
   /* Teinte dérivée du vert sauge (≈15% sur ivoire), opaque — utilisée pour
      la barre de navigation. Opaque plutôt que transparente pour garder le
      logo et le menu lisibles quel que soit l'écran qui défile en dessous. */
-  --color-vert-pale: #e0e8dd;
+  --color-vert-pale: #ece8d8;
 
   --background: var(--color-ivoire);
   --foreground: var(--color-vert-profond);
