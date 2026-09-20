@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Verse } from "@/components/Verse";
 import { SaveTheDate } from "@/components/SaveTheDate";
@@ -201,8 +202,21 @@ export default async function AccueilPage() {
       </section>
 
       {/* Écran 6 — Save the Date */}
-      <section id="ecran-6" className="px-6 py-24 bg-beige-sable/30 text-center">
-        <Reveal>
+      <section id="ecran-6" className="relative overflow-hidden px-6 py-24 text-center">
+        {/* Photo du couple en fond, essai demandé par le couple — voile dans
+            les tons de la charte (ivoire → beige-sable) par-dessus pour que
+            le texte reste lisible et que la palette du site domine toujours. */}
+        <Image
+          src="/img/DSC01593.jpg"
+          alt=""
+          aria-hidden="true"
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-linear-to-b from-ivoire/92 via-ivoire/85 to-beige-sable/90" />
+
+        <Reveal className="relative">
           <p className="font-sans text-xs uppercase tracking-[0.3em] text-or-mat mb-3">
             Save the date
           </p>

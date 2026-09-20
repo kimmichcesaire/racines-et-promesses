@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { RsvpForm } from "@/components/forms/RsvpForm";
 import { PrayerForm } from "@/components/forms/PrayerForm";
 import { ContributionBlock } from "@/components/ContributionBlock";
-import { PageWatermark } from "@/components/PageWatermark";
 import { WatermarkCard } from "@/components/WatermarkCard";
 import { BlockText } from "@/components/BlockText";
 import { ZoomableImage } from "@/components/ZoomableImage";
@@ -23,7 +23,15 @@ export default async function ParticipationPage() {
 
   return (
     <section className="relative px-6 py-20 sm:py-28 overflow-hidden">
-      <PageWatermark />
+      {/* Même photo qu'en page d'accueil, fixe derrière tout le contenu comme
+          le filigrane logo — voile ivoire → beige-sable par-dessus pour que
+          la palette du site reste dominante. Les WatermarkCard (déjà conçus
+          pour rester lisibles quel que soit le fond) n'ont besoin d'aucun
+          changement. */}
+      <div aria-hidden="true" className="fixed inset-0 -z-20">
+        <Image src="/img/DSC01593.jpg" alt="" fill sizes="100vw" className="object-cover" />
+        <div className="absolute inset-0 bg-linear-to-b from-ivoire/92 via-ivoire/85 to-beige-sable/90" />
+      </div>
 
       <WatermarkCard className="mx-auto max-w-2xl text-center">
         <h1 className="font-display text-4xl text-vert-profond">
