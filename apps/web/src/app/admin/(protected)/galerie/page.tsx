@@ -18,7 +18,10 @@ export default function AdminGalleryPage() {
   const router = useRouter();
   const [items, setItems] = useState<MediaItem[] | null>(null);
   const [uploadStatus, setUploadStatus] = useState<"idle" | "uploading" | "error">("idle");
-  const [uploadError, setUploadError] = useState("");
+  const [uploadProgress, setUploadProgress] = useState<{ current: number; total: number } | null>(
+    null,
+  );
+  const [uploadErrors, setUploadErrors] = useState<string[]>([]);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const loadMedia = useCallback(() => {
@@ -37,43 +40,55 @@ export default function AdminGalleryPage() {
     loadMedia();
   }, [loadMedia]);
 
+  // Envoi séquentiel (un fichier à la fois, l'un après l'autre) plutôt qu'en
+  // parallèle : avec des lots de plusieurs dizaines de photos, ça garde une
+  // progression lisible et évite de saturer l'API en un seul instant.
   async function handleUpload(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
+    const files = Array.from(event.target.files ?? []);
     event.target.value = "";
-    if (!file) return;
+    if (files.length === 0) return;
 
     const token = getAdminToken();
     if (!token) return;
 
     setUploadStatus("uploading");
-    setUploadError("");
+    setUploadErrors([]);
 
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
+    const errors: string[] = [];
 
-      const response = await fetch(`${API_URL}/gallery-media`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      });
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      setUploadProgress({ current: i + 1, total: files.length });
 
-      if (!response.ok) {
-        const payload = await response.json().catch(() => null);
-        if (response.status === 401) {
-          redirectToLogin(router);
-          return;
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await fetch(`${API_URL}/gallery-media`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        });
+
+        if (!response.ok) {
+          const payload = await response.json().catch(() => null);
+          if (response.status === 401) {
+            redirectToLogin(router);
+            return;
+          }
+          throw new Error(payload?.message ?? "Échec de l'envoi.");
         }
-        throw new Error(payload?.message ?? "Échec de l'envoi.");
-      }
 
-      const created: MediaItem = await response.json();
-      setItems((prev) => (prev ? [created, ...prev] : [created]));
-      setUploadStatus("idle");
-    } catch (err) {
-      setUploadStatus("error");
-      setUploadError(err instanceof Error ? err.message : "Échec de l'envoi.");
+        const created: MediaItem = await response.json();
+        setItems((prev) => (prev ? [created, ...prev] : [created]));
+      } catch (err) {
+        errors.push(`${file.name} : ${err instanceof Error ? err.message : "échec de l'envoi"}`);
+      }
     }
+
+    setUploadProgress(null);
+    setUploadErrors(errors);
+    setUploadStatus(errors.length > 0 ? "error" : "idle");
   }
 
   async function handleDelete(id: string) {
@@ -104,7 +119,9 @@ export default function AdminGalleryPage() {
     <div>
       <h1 className="font-display text-3xl text-vert-profond">Galerie photos &amp; vidéos</h1>
       <p className="font-sans text-sm text-vert-profond/70 mt-2">
-        Formats acceptés : JPG, PNG, WEBP, MP4, MOV — 50 Mo maximum par fichier.
+        Formats acceptés : JPG, PNG, WEBP, MP4, MOV — 50 Mo maximum par fichier. Vous pouvez
+        sélectionner plusieurs fichiers à la fois, ils s&apos;envoient automatiquement l&apos;un
+        après l&apos;autre.
       </p>
 
       <div className="mt-6">
@@ -113,17 +130,24 @@ export default function AdminGalleryPage() {
             uploadStatus === "uploading" ? "opacity-50 pointer-events-none" : ""
           }`}
         >
-          {uploadStatus === "uploading" ? "Envoi en cours…" : "Ajouter une photo ou une vidéo"}
+          {uploadStatus === "uploading" && uploadProgress
+            ? `Envoi ${uploadProgress.current}/${uploadProgress.total}…`
+            : "Ajouter des photos ou vidéos"}
           <input
             type="file"
             accept={ACCEPTED_TYPES}
             onChange={handleUpload}
             disabled={uploadStatus === "uploading"}
+            multiple
             className="hidden"
           />
         </label>
-        {uploadStatus === "error" && (
-          <p className="font-sans text-sm text-red-700 mt-3">{uploadError}</p>
+        {uploadStatus === "error" && uploadErrors.length > 0 && (
+          <ul className="font-sans text-sm text-red-700 mt-3 space-y-1">
+            {uploadErrors.map((message) => (
+              <li key={message}>{message}</li>
+            ))}
+          </ul>
         )}
       </div>
 
