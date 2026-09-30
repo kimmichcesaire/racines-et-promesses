@@ -8,10 +8,10 @@ import { getContentBlocks } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Notre histoire — Racines & Promesses",
-  description: "Le récit chronologique de Luciana & Ben.",
+  description: "Le récit chronologique de Adèle & Ben.",
 };
 
-const FALLBACK_RECIT = `Le récit chronologique détaillé de Luciana & Ben prendra place ici : leur rencontre à Lille, la période du Covid et leurs premiers échanges, la distance entre Nice et Reims, le rôle de Dieu dans leur histoire, la naissance de la soif spirituelle de Ben, leur décision de se marier, leur vision du foyer, et le cheminement spirituel qui les a menés jusqu'ici.`;
+const FALLBACK_RECIT = `Le récit chronologique détaillé de Adèle & Ben prendra place ici : leur rencontre à Lille, la période du Covid et leurs premiers échanges, la distance entre Nice et Reims, le rôle de Dieu dans leur histoire, la naissance de la soif spirituelle de Ben, leur décision de se marier, leur vision du foyer, et le cheminement spirituel qui les a menés jusqu'ici.`;
 
 export default async function NotreHistoirePage() {
   const blocks = await getContentBlocks("notre-histoire");

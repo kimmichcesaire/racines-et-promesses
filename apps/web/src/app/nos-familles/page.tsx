@@ -6,10 +6,10 @@ import { getContentBlocks } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Nos familles — Racines & Promesses",
-  description: "Présentation des familles de Luciana & Ben.",
+  description: "Présentation des familles de Adèle & Ben.",
 };
 
-const FALLBACK_CONTENU = `Cette page présentera les familles de Luciana & Ben — un contenu qui reste à définir ensemble avant sa publication.`;
+const FALLBACK_CONTENU = `Cette page présentera les familles de Adèle & Ben — un contenu qui reste à définir ensemble avant sa publication.`;
 
 export default async function NosFamillesPage() {
   const blocks = await getContentBlocks("nos-familles");

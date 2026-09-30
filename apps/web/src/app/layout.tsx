@@ -21,9 +21,9 @@ const workSans = Work_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
-  title: "Racines & Promesses — Luciana & Ben",
+  title: "Racines & Promesses — Adèle & Ben",
   description:
-    "Une nouvelle saison commence. Save the date : Luciana & Ben se marient entre septembre et décembre 2026.",
+    "Une nouvelle saison commence. Save the date : Adèle & Ben se marient entre septembre et décembre 2026.",
   icons: {
     icon: [
       { url: "/logo/favicon-16x16.png", sizes: "16x16", type: "image/png" },
@@ -33,9 +33,9 @@ export const metadata: Metadata = {
     apple: [{ url: "/logo/apple-touch-icon-180x180.png", sizes: "180x180" }],
   },
   openGraph: {
-    title: "Racines & Promesses — Luciana & Ben",
+    title: "Racines & Promesses — Adèle & Ben",
     description: "Une nouvelle saison commence. Save the date : septembre – décembre 2026.",
-    images: ["/logo/logo-lb-w640.png"],
+    images: ["/logo/logo-ab-w640.png"],
     locale: "fr_FR",
   },
 };

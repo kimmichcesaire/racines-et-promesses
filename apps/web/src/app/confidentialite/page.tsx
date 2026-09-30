@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Confidentialité — Racines & Promesses",
-  description: "Politique de confidentialité et RGPD du site de Luciana & Ben.",
+  description: "Politique de confidentialité et RGPD du site de Adèle & Ben.",
 };
 
 export default function ConfidentialitePage() {
@@ -19,7 +19,7 @@ export default function ConfidentialitePage() {
               Qui gère ce site ?
             </h2>
             <p>
-              Ce site est géré par Luciana et Ben dans le cadre de l&apos;organisation de
+              Ce site est géré par Adèle et Ben dans le cadre de l&apos;organisation de
               leur mariage. Il a été développé par{" "}
               <span className="text-or-mat">[Nom / activité du développeur]</span>,
               responsable des aspects techniques.
@@ -44,7 +44,7 @@ export default function ConfidentialitePage() {
             </h2>
             <p>
               Uniquement pour l&apos;organisation du mariage : gérer la liste des invités,
-              préparer le jour J, et transmettre vos messages à Luciana et Ben. Aucune
+              préparer le jour J, et transmettre vos messages à Adèle et Ben. Aucune
               information n&apos;est utilisée à des fins commerciales, publicitaires ou
               revendue à des tiers.
             </p>
@@ -55,7 +55,7 @@ export default function ConfidentialitePage() {
               Qui a accès à ces informations ?
             </h2>
             <p>
-              Seuls Luciana et Ben ont accès aux réponses RSVP et aux messages de prière,
+              Seuls Adèle et Ben ont accès aux réponses RSVP et aux messages de prière,
               qui restent strictement privés. Les messages de prière ne sont jamais publiés
               sur le site.
             </p>

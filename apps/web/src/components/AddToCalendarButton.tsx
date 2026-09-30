@@ -22,11 +22,11 @@ function buildIcsContent(dateISO: string): string {
     "PRODID:-//Racines et Promesses//Save the Date//FR",
     "CALSCALE:GREGORIAN",
     "BEGIN:VEVENT",
-    `UID:racines-et-promesses-${start}@luciana-et-ben`,
+    `UID:racines-et-promesses-${start}@adele-et-ben`,
     `DTSTAMP:${stamp}`,
     `DTSTART;VALUE=DATE:${start}`,
     `DTEND;VALUE=DATE:${end}`,
-    "SUMMARY:Mariage de Luciana \\& Ben",
+    "SUMMARY:Mariage de Adèle \\& Ben",
     "DESCRIPTION:Racines \\& Promesses — save the date.",
     "END:VEVENT",
     "END:VCALENDAR",
@@ -44,7 +44,7 @@ export function AddToCalendarButton({ dateEvenement }: AddToCalendarButtonProps)
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "mariage-luciana-et-ben.ics";
+    link.download = "mariage-adele-et-ben.ics";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

@@ -1,4 +1,4 @@
-# Racines & Promesses — Luciana & Ben
+# Racines & Promesses — Adèle & Ben
 
 Site internet de mariage, Phase 1 (Save the Date). Voir
 `CAHIER_DES_CHARGES_TECHNIQUE.md` pour le détail fonctionnel complet.
@@ -10,7 +10,7 @@ mariage/
 ├── apps/
 │   ├── web/     Next.js (frontend public + espace admin à venir)
 │   └── api/     NestJS (API REST)
-├── branding/    Logo L&B (source + déclinaisons favicon/web)
+├── branding/    Logo A&B (source + déclinaisons favicon/web)
 ├── supabase/
 │   └── migrations/   Schéma SQL (tables + RLS)
 └── package.json Workspace racine (scripts de convenance)
@@ -61,7 +61,7 @@ npm run dev:web       # terminal 2 — http://localhost:3000
 
 Fait :
 - 8 écrans de l'accueil, structure et contenu (écran 3 en attente du texte
-  définitif de Luciana), animation d'ouverture goutte → onde → arbre (vidéo
+  définitif de Adèle), animation d'ouverture goutte → onde → arbre (vidéo
   fournie par le couple)
 - Pages `/notre-histoire`, `/racines-et-promesses`, `/nos-familles`,
   `/confidentialite`, `/participation`
@@ -75,7 +75,7 @@ Fait :
   prières, édition des liens de participation (Lydia/RIB)
 - API NestJS : validation, rate-limiting, authentification admin (JWT), RLS
   Supabase
-- Logo L&B intégré (favicon, header, footer, métadonnées de partage)
+- Logo A&B intégré (favicon, header, footer, métadonnées de partage)
 
 Reste à faire :
 - Compléter `apps/api/.env` avec un vrai projet Supabase + Resend

@@ -13,7 +13,7 @@ export function SiteFooter() {
     <footer className="mt-auto bg-vert-profond text-ivoire">
       <div className="mx-auto max-w-3xl px-6 py-16 text-center">
         <p className="font-display text-2xl tracking-wide">RACINES &amp; PROMESSES</p>
-        <p className="font-display text-lg mt-1">LUCIANA &amp; BEN</p>
+        <p className="font-display text-lg mt-1">ADÈLE &amp; BEN</p>
         <p className="font-sans italic text-sm text-ivoire/80 mt-4">
           « Ils seront comme des arbres plantés près d&apos;un cours d&apos;eau. » — Jérémie 17:8
         </p>

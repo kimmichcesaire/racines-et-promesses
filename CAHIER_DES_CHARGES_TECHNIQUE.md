@@ -1,5 +1,5 @@
 # Racines & Promesses — Cahier des charges technique
-### Site internet de mariage — Luciana & Ben — Phase 1 (Save the Date)
+### Site internet de mariage — Adèle & Ben — Phase 1 (Save the Date)
 
 > Document de spécification technique consolidé, destiné à guider le développement du site avec Claude Code. Il regroupe le cahier des charges éditorial fourni par le couple, les réponses obtenues en clarification, et les décisions techniques validées.
 
@@ -7,7 +7,7 @@
 
 ## 1. Contexte et vision
 
-Racines & Promesses est le site internet dédié au mariage de **Luciana & Ben** (ordre des prénoms à respecter partout sur le site : Luciana en premier, Ben en second).
+Racines & Promesses est le site internet dédié au mariage de **Adèle & Ben** (ordre des prénoms à respecter partout sur le site : Adèle en premier, Ben en second).
 
 Le concept repose sur l'image biblique de l'arbre planté près d'un cours d'eau (Jérémie 17:8) : racines (passé, foi, familles), alliance (choix de marcher ensemble), promesses (foyer futur, héritage). Le cours d'eau représente Dieu comme Source.
 
@@ -60,7 +60,7 @@ Animation : goutte d'eau → onde → racines → tronc → branches → feuille
 Texte :
 ```
 RACINES & PROMESSES
-Luciana & Ben
+Adèle & Ben
 « Ils seront comme des arbres plantés près d'un cours d'eau. » Jérémie 17:8
 
 Une nouvelle saison commence.
@@ -92,8 +92,8 @@ DE NOS RACINES NAÎTRA NOTRE HÉRITAGE.
 [DÉCOUVRIR NOTRE HISTOIRE →]
 ```
 
-### Écran 3 — Luciana & Ben
-> **Statut : texte en cours de révision par Luciana (raccourcissement en cours).** Prévoir ce bloc comme une zone de contenu éditable (`content_blocks`, voir section 8) plutôt qu'un texte figé en dur, pour permettre une mise à jour sans redéploiement.
+### Écran 3 — Adèle & Ben
+> **Statut : texte en cours de révision par Adèle (raccourcissement en cours).** Prévoir ce bloc comme une zone de contenu éditable (`content_blocks`, voir section 8) plutôt qu'un texte figé en dur, pour permettre une mise à jour sans redéploiement.
 
 Structure validée à conserver : rencontre à Lille, Covid et premiers échanges, distance Nice-Reims, rôle de Dieu dans leur histoire, naissance de la soif spirituelle de Ben, décision du mariage, vision du foyer (Psaume 127:1), fruit et héritage, ce qu'ils admirent l'un chez l'autre.
 
@@ -180,7 +180,7 @@ Voir section 7 pour le détail fonctionnel de chacun de ces 4 blocs (ce sont les
 [Animation : l'arbre final apparaît près du cours d'eau, en boucle avec l'écran d'ouverture]
 
 RACINES & PROMESSES
-LUCIANA & BEN
+ADÈLE & BEN
 « Ils seront comme des arbres plantés près d'un cours d'eau. » — Jérémie 17:8
 
 Merci d'avoir pris le temps d'entrer dans notre histoire.
@@ -188,7 +188,7 @@ Nous avons hâte de partager cette nouvelle saison avec vous.
 Avec amour ♡
 ```
 Navigation du footer : Accueil · Notre histoire · Racines & Promesses · Participation · Confidentialité.
-**Logo/monogramme "L&B"** affiché ici et dans le header (voir section 10 — identité visuelle).
+**Logo/monogramme "A&B"** affiché ici et dans le header (voir section 10 — identité visuelle).
 
 ---
 
@@ -212,7 +212,7 @@ Navigation du footer : Accueil · Notre histoire · Racines & Promesses · Parti
 
 ### 7.2 Prière (« Déposer une prière »)
 - **Strictement privé** : les messages ne sont jamais affichés publiquement sur le site.
-- Envoyés uniquement à Luciana et Ben, avec **nom et prénom** de l'expéditeur (demande explicite du client).
+- Envoyés uniquement à Adèle et Ben, avec **nom et prénom** de l'expéditeur (demande explicite du client).
 - ⚠️ Donnée sensible RGPD (contenu à caractère religieux + identité). Nécessite un consentement explicite, non pré-coché (texte validé, voir section 9).
 - Transmission : enregistrement en base + notification email au couple à chaque nouveau message (à confirmer : adresse email de réception).
 
@@ -298,10 +298,10 @@ Base de données relationnelle (PostgreSQL via Supabase).
 ## 9. Textes RGPD validés (à intégrer tels quels)
 
 **Formulaire de prière — mention d'information (au-dessus du formulaire) :**
-> Les informations transmises via ce formulaire (nom, prénom, message) sont destinées uniquement à Luciana et Ben. Elles ne seront ni publiées sur le site, ni communiquées à des tiers, et seront conservées jusqu'à la fin de la période de préparation du mariage.
+> Les informations transmises via ce formulaire (nom, prénom, message) sont destinées uniquement à Adèle et Ben. Elles ne seront ni publiées sur le site, ni communiquées à des tiers, et seront conservées jusqu'à la fin de la période de préparation du mariage.
 
 **Formulaire de prière — case à cocher obligatoire, non cochée par défaut :**
-> J'accepte que ce message, ainsi que mon nom et prénom, soient transmis à Luciana et Ben dans le cadre de ce formulaire.
+> J'accepte que ce message, ainsi que mon nom et prénom, soient transmis à Adèle et Ben dans le cadre de ce formulaire.
 
 **Contrainte d'implémentation :** le bouton d'envoi doit rester désactivé tant que la case n'est pas cochée. Le champ `consentement_rgpd` doit être horodaté en base à l'envoi.
 
@@ -313,16 +313,16 @@ Base de données relationnelle (PostgreSQL via Supabase).
 
 **Page `/confidentialite` (contenu complet à intégrer) :**
 > **Qui gère ce site ?**
-> Ce site est géré par Luciana et Ben dans le cadre de l'organisation de leur mariage. Il a été développé par [Nom / activité du développeur], responsable des aspects techniques.
+> Ce site est géré par Adèle et Ben dans le cadre de l'organisation de leur mariage. Il a été développé par [Nom / activité du développeur], responsable des aspects techniques.
 >
 > **Quelles informations sont collectées ?**
 > Selon les formulaires que vous utilisez sur ce site, nous pouvons collecter : votre nom et prénom, votre réponse de présence (RSVP), le nombre de personnes vous accompagnant, ainsi que, si vous le souhaitez, un message de prière ou de bénédiction.
 >
 > **Pourquoi ces informations sont-elles collectées ?**
-> Uniquement pour l'organisation du mariage : gérer la liste des invités, préparer le jour J, et transmettre vos messages à Luciana et Ben. Aucune information n'est utilisée à des fins commerciales, publicitaires ou revendue à des tiers.
+> Uniquement pour l'organisation du mariage : gérer la liste des invités, préparer le jour J, et transmettre vos messages à Adèle et Ben. Aucune information n'est utilisée à des fins commerciales, publicitaires ou revendue à des tiers.
 >
 > **Qui a accès à ces informations ?**
-> Seuls Luciana et Ben ont accès aux réponses RSVP et aux messages de prière, qui restent strictement privés. Les messages de prière ne sont jamais publiés sur le site.
+> Seuls Adèle et Ben ont accès aux réponses RSVP et aux messages de prière, qui restent strictement privés. Les messages de prière ne sont jamais publiés sur le site.
 >
 > **Combien de temps sont-elles conservées ?**
 > Les informations sont conservées le temps de la préparation et de la tenue de l'événement, puis supprimées dans un délai raisonnable après le mariage.
@@ -344,9 +344,9 @@ Lien "Confidentialité" à placer dans le footer, présent sur toutes les pages.
 - **Symbolique à respecter dans le design :** racines = passé, tronc = alliance, branches = avenir, feuilles = saisons, fruits = héritage, eau = Dieu/la Source.
 - **Animations :** subtiles, lentes, élégantes — jamais rapides ni nombreuses.
 - **Typographie :** carte blanche laissée au développeur/designer.
-- **Logo / monogramme :** à concevoir — "L&B" (Luciana avant Ben), 2-3 propositions à soumettre au couple avant intégration finale.
+- **Logo / monogramme :** à concevoir — "A&B" (Adèle avant Ben), 2-3 propositions à soumettre au couple avant intégration finale.
 - **Musique :** aucune, décision définitive.
-- **Ordre des prénoms :** Luciana toujours avant Ben, sur l'ensemble du site, sans exception.
+- **Ordre des prénoms :** Adèle toujours avant Ben, sur l'ensemble du site, sans exception.
 
 ---
 
@@ -392,7 +392,7 @@ Supabase (PostgreSQL)
 | Élément | Statut | Bloque |
 |---|---|---|
 | Photos du couple (séance photo en cours) | À venir | Écran 3, `/notre-histoire` |
-| Texte raccourci de l'écran 3 | En cours par Luciana | Écran 3 uniquement |
+| Texte raccourci de l'écran 3 | En cours par Adèle | Écran 3 uniquement |
 | Contenu page "Nos familles" | À préparer ensemble | `/nos-familles` uniquement |
 | Vidéo Save the Date | En préparation par le couple | Emplacement à prévoir, non bloquant |
 | Adresse email de réception des prières | À confirmer | Configuration email transactionnel |
@@ -413,7 +413,7 @@ Le développement de la Phase 1 peut démarrer immédiatement en parallèle de c
 
 ## 14. Définition de "terminé" pour la Phase 1
 
-- [ ] Les 8 écrans de la page d'accueil sont fonctionnels et respectent l'ordre "Luciana & Ben"
+- [ ] Les 8 écrans de la page d'accueil sont fonctionnels et respectent l'ordre "Adèle & Ben"
 - [ ] Animation d'ouverture goutte → racines → arbre implémentée, sans musique
 - [ ] Pages `/notre-histoire`, `/racines-et-promesses`, `/participation`, `/nos-familles` en place (contenu provisoire accepté si texte final non livré)
 - [ ] Formulaire RSVP fonctionnel, ouvert, sans authentification
@@ -423,4 +423,4 @@ Le développement de la Phase 1 peut démarrer immédiatement en parallèle de c
 - [ ] Page `/confidentialite` en ligne, lien présent dans le footer de toutes les pages
 - [ ] Site responsive et testé sur mobile
 - [ ] Nom de domaine acheté au nom du couple, hébergement en place, SSL actif
-- [ ] Logo/monogramme "L&B" intégré (header + footer) après validation du couple
+- [ ] Logo/monogramme "A&B" intégré (header + footer) après validation du couple

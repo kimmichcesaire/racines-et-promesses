@@ -8,8 +8,8 @@ export function ShareSaveTheDateButton() {
   async function handleShare() {
     const url = window.location.href;
     const shareData = {
-      title: "Racines & Promesses — Luciana & Ben",
-      text: "Save the date : le mariage de Luciana & Ben approche !",
+      title: "Racines & Promesses — Adèle & Ben",
+      text: "Save the date : le mariage de Adèle & Ben approche !",
       url,
     };
 

@@ -56,7 +56,7 @@ export default async function AccueilPage() {
           className="rise-in font-display text-2xl sm:text-3xl mt-2 text-vert-profond/90"
           style={{ animationDelay: "300ms" }}
         >
-          Luciana &amp; Ben
+          Adèle &amp; Ben
         </p>
         <div className="rise-in" style={{ animationDelay: "450ms" }}>
           <Verse reference="Jérémie 17:8">
@@ -104,11 +104,11 @@ export default async function AccueilPage() {
         </Reveal>
       </section>
 
-      {/* Écran 3 — Luciana & Ben */}
+      {/* Écran 3 — Adèle & Ben */}
       <section id="ecran-3" className="px-6 py-24 bg-vert-sauge/10">
         <Reveal className="mx-auto max-w-2xl text-center">
           <p className="font-sans text-xs uppercase tracking-widest text-or-mat mb-4">
-            Texte en cours de révision par Luciana
+            Texte en cours de révision par Adèle
           </p>
           <div className="font-sans text-[15px] leading-relaxed text-vert-profond/80 space-y-4">
             <BlockText text={blocks.ecran_3?.contenu ?? FALLBACK.ecran_3} />

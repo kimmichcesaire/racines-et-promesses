@@ -4,7 +4,7 @@ import { PageWatermark } from "@/components/PageWatermark";
 import { WatermarkCard } from "@/components/WatermarkCard";
 
 export const metadata: Metadata = {
-  title: "Racines & Promesses — Luciana & Ben",
+  title: "Racines & Promesses — Adèle & Ben",
   description: "Approfondissement du concept Racines, Alliance et Promesses.",
 };
 

@@ -42,7 +42,7 @@ export function PrayerForm() {
   if (status === "success") {
     return (
       <p className="font-sans text-sm text-vert-profond bg-vert-sauge/15 border border-vert-sauge/40 rounded-lg p-5">
-        Merci. Votre message a été transmis à Luciana &amp; Ben, en toute confidentialité.
+        Merci. Votre message a été transmis à Adèle &amp; Ben, en toute confidentialité.
       </p>
     );
   }
@@ -51,7 +51,7 @@ export function PrayerForm() {
     <form onSubmit={handleSubmit} className="space-y-5 text-left">
       <p className="font-sans text-xs text-vert-profond/70 leading-relaxed bg-ivoire border border-beige-sable rounded-lg p-4">
         Les informations transmises via ce formulaire (nom complet, message) sont destinées
-        uniquement à Luciana et Ben. Elles ne seront ni publiées sur le site, ni communiquées
+        uniquement à Adèle et Ben. Elles ne seront ni publiées sur le site, ni communiquées
         à des tiers, et seront conservées jusqu&apos;à la fin de la période de préparation du
         mariage.
       </p>
@@ -99,7 +99,7 @@ export function PrayerForm() {
           className="mt-0.5"
         />
         J&apos;accepte que ce message, ainsi que mon nom complet, soient transmis à
-        Luciana et Ben dans le cadre de ce formulaire.
+        Adèle et Ben dans le cadre de ce formulaire.
       </label>
 
       {status === "error" && (

@@ -38,7 +38,7 @@ export function SiteHeader() {
         <Link href="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
           <Image
             src="/logo/favicon-48x48.png"
-            alt="Racines & Promesses — Luciana & Ben"
+            alt="Racines & Promesses — Adèle & Ben"
             width={40}
             height={40}
             className="rounded-full"
