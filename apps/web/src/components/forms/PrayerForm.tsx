@@ -85,7 +85,7 @@ export function PrayerForm() {
       </div>
 
       {/* Piège à robots : invisible et ignoré par un visiteur humain */}
-      <div className="absolute -left-[9999px]" aria-hidden="true">
+      <div className="absolute left-[-9999px]" aria-hidden="true">
         <label htmlFor="siteWeb">Site web</label>
         <input id="siteWeb" name="siteWeb" type="text" tabIndex={-1} autoComplete="off" />
       </div>
