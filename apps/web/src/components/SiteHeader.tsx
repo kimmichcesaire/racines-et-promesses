@@ -8,7 +8,6 @@ const NAV_LINKS = [
   { href: "/", label: "Accueil" },
   { href: "/notre-histoire", label: "Notre histoire" },
   { href: "/racines-et-promesses", label: "Racines & Promesses" },
-  { href: "/nos-familles", label: "Nos familles" },
   { href: "/participation", label: "Participation" },
 ];
 

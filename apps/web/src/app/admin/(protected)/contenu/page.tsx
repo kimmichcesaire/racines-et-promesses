@@ -17,7 +17,6 @@ const PAGES = [
   { slug: "accueil", label: "Accueil" },
   { slug: "notre-histoire", label: "Notre histoire" },
   { slug: "racines-et-promesses", label: "Racines & Promesses" },
-  { slug: "nos-familles", label: "Nos familles" },
   { slug: "participation", label: "Participation" },
 ] as const;
 
